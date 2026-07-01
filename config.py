@@ -1,6 +1,11 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -14,3 +19,5 @@ class Config:
     ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
     ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@complaints.local")
     ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "Admin@12345")
+    GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+    GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite")

@@ -65,6 +65,15 @@ Email: admin@complaints.local
 Password: Admin@12345
 ```
 
+Optional Gemini AI classification:
+
+```text
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_MODEL=gemini-2.5-flash-lite
+```
+
+If `GEMINI_API_KEY` is missing or the API limit is reached, the app automatically falls back to the built-in Python keyword classifier.
+
 You can override the default administrator values before first run:
 
 Windows PowerShell:
@@ -244,6 +253,8 @@ Start Command: gunicorn app:app
 SECRET_KEY=choose-a-long-random-secret
 ADMIN_EMAIL=admin@complaints.local
 ADMIN_PASSWORD=Admin@12345
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_MODEL=gemini-2.5-flash-lite
 ```
 
 8. Click `Deploy Web Service`.

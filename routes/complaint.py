@@ -3,7 +3,7 @@ from flask import Blueprint, flash, redirect, render_template, request, session,
 
 from models.complaint import Complaint
 from models.user import User, db
-from utils.classifier import VALID_CATEGORIES, detect_category, detect_priority
+from utils.classifier import VALID_CATEGORIES, classify_complaint
 from utils.helper import citizen_required, clean_text, save_upload, validate_email, validate_phone
 
 
@@ -46,8 +46,9 @@ def report_complaint():
                 flash("Enter a valid phone number.", "danger")
             else:
                 image_filename = save_upload(request.files.get("photo"))
-                category = detect_category(title, description, category_input)
-                priority = detect_priority(title, description)
+                classification = classify_complaint(title, description, category_input)
+                category = classification["category"]
+                priority = classification["priority"]
                 complaint = Complaint(
                     user_id=user.id,
                     full_name=full_name,
