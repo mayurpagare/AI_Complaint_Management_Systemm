@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Report Complaint{% endblock %}
+{% block content %}
+<section class="form-shell">
+    <form class="form-card glass" method="post" enctype="multipart/form-data" data-validate>
+        <p class="eyebrow">Report public issue</p>
+        <h1>Submit a Complaint</h1>
+        <div class="form-grid">
+            <label>Full Name<input type="text" name="full_name" value="{{ user.full_name }}" required maxlength="120"></label>
+            <label>Phone Number<input type="tel" name="phone" value="{{ user.phone }}" required maxlength="20"></label>
+            <label>Email<input type="email" name="email" value="{{ user.email }}" required maxlength="120"></label>
+            <label>Location<input type="text" name="location" required maxlength="180"></label>
+            <label class="wide">Complaint Title<input type="text" name="title" required maxlength="160"></label>
+            <label>Complaint Category
+                <select name="category">
+                    <option value="">Auto detect category</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label>Photo Upload<input type="file" name="photo" accept=".jpg,.jpeg,.png,image/jpeg,image/png"></label>
+            <label class="wide">Description<textarea name="description" rows="7" required maxlength="3000"></textarea></label>
+        </div>
+        <button class="btn btn-primary btn-large" type="submit">Submit Complaint</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<section class="dashboard-shell two-column">
+    <form class="form-card glass" method="post" data-validate>
+        <p class="eyebrow">Citizen profile</p>
+        <h1>Profile</h1>
+        <label>Full Name<input type="text" name="full_name" value="{{ user.full_name }}" required maxlength="120"></label>
+        <label>Phone Number<input type="tel" name="phone" value="{{ user.phone }}" required maxlength="20"></label>
+        <label>Email<input type="email" name="email" value="{{ user.email }}" required maxlength="120"></label>
+        <button class="btn btn-primary" type="submit">Update Profile</button>
+    </form>
+    <aside class="panel-card">
+        <h2>Status Summary</h2>
+        {% for status, count in history.items() %}
+            <div class="metric-row"><span>{{ status }}</span><strong>{{ count }}</strong></div>
+        {% else %}
+            <p class="muted">No complaint activity yet.</p>
+        {% endfor %}
+    </aside>
+</section>
+{% endblock %}

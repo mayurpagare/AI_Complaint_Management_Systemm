@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}AI Complaint Management System{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-copy">
+        <p class="eyebrow">Smart civic service desk</p>
+        <h1>AI Complaint Management System</h1>
+        <p class="hero-text">Report public issues, let keyword intelligence classify them, and track resolution from one responsive dashboard.</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary btn-large" href="{{ url_for('complaint.report_complaint') }}">Report Complaint</a>
+            <a class="btn btn-secondary btn-large" href="{{ url_for('auth.login') }}">Track Status</a>
+        </div>
+    </div>
+    <div class="hero-panel glass">
+        <div class="status-orbit">
+            <span>Road</span><span>Water</span><span>Power</span><span>Waste</span>
+        </div>
+        <div class="hero-card">
+            <p>Auto Category</p>
+            <strong>Water Leakage</strong>
+            <small>Priority: Medium</small>
+        </div>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span>{{ total }}</span><p>Total complaints</p></article>
+    <article class="stat-card"><span>{{ resolved }}</span><p>Resolved</p></article>
+    <article class="stat-card"><span>{{ pending }}</span><p>Pending</p></article>
+    <article class="stat-card"><span>24/7</span><p>Online reporting</p></article>
+</section>
+
+<section class="content-band">
+    <div class="section-heading">
+        <p class="eyebrow">Features</p>
+        <h2>Everything citizens and administrators need</h2>
+    </div>
+    <div class="feature-grid">
+        <article class="feature-card"><h3>Keyword Classification</h3><p>Complaints are automatically categorized when citizens leave the category empty.</p></article>
+        <article class="feature-card"><h3>Priority Detection</h3><p>Danger, accident, fire, leak, and cleaning cues help surface urgent issues quickly.</p></article>
+        <article class="feature-card"><h3>Admin Analytics</h3><p>Charts, filters, CSV exports, and status controls support operational follow-through.</p></article>
+        <article class="feature-card"><h3>Secure Uploads</h3><p>JPG and PNG evidence uploads are validated and stored under controlled limits.</p></article>
+    </div>
+</section>
+
+<section class="steps-section">
+    <div class="section-heading">
+        <p class="eyebrow">How it works</p>
+        <h2>From report to resolution</h2>
+    </div>
+    <div class="steps">
+        <div><span>1</span><h3>Register</h3><p>Create a citizen account with a secure hashed password.</p></div>
+        <div><span>2</span><h3>Submit</h3><p>Add issue details, location, category, and an optional image.</p></div>
+        <div><span>3</span><h3>Track</h3><p>Follow status updates as administrators review and resolve the case.</p></div>
+    </div>
+</section>
+{% endblock %}

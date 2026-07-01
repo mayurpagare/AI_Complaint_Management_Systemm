@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Citizen Dashboard{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+    <div class="welcome-card glass">
+        <div>
+            <p class="eyebrow">Citizen Dashboard</p>
+            <h1>Welcome, {{ user.full_name }}</h1>
+            <p>Monitor your submitted complaints and their current status.</p>
+        </div>
+        <a class="btn btn-primary" href="{{ url_for('complaint.report_complaint') }}">Report Complaint</a>
+    </div>
+
+    <div class="stats-grid compact">
+        <article class="stat-card"><span>{{ stats.total }}</span><p>Total</p></article>
+        <article class="stat-card"><span>{{ stats.pending }}</span><p>Pending</p></article>
+        <article class="stat-card"><span>{{ stats.progress }}</span><p>In Progress</p></article>
+        <article class="stat-card"><span>{{ stats.resolved }}</span><p>Resolved</p></article>
+    </div>
+
+    <section class="table-card">
+        <div class="table-header"><h2>Complaint History</h2></div>
+        <div class="responsive-table">
+            <table>
+                <thead><tr><th>Title</th><th>Category</th><th>Priority</th><th>Status</th><th>Location</th><th>Date</th></tr></thead>
+                <tbody>
+                {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.title }}</td>
+                        <td>{{ complaint.category }}</td>
+                        <td><span class="badge priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></td>
+                        <td><span class="badge status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></td>
+                        <td>{{ complaint.location }}</td>
+                        <td>{{ complaint.created_at.strftime("%d %b %Y") }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="empty-row">No complaints submitted yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+{% endblock %}

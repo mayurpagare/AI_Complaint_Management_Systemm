@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Manage Complaints{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+    <div class="table-card">
+        <div class="table-header">
+            <div>
+                <p class="eyebrow">Admin panel</p>
+                <h1>All Complaints</h1>
+            </div>
+            <a class="btn btn-primary" href="{{ url_for('admin.export_csv', **request.args) }}">Export CSV</a>
+        </div>
+
+        <form class="filter-bar" method="get">
+            <input type="search" name="search" value="{{ request.args.get('search', '') }}" placeholder="Search name, phone, category, status, location">
+            <select name="category">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category }}" {% if request.args.get('category') == category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+            <select name="status">
+                <option value="">All statuses</option>
+                {% for status in statuses %}
+                    <option value="{{ status }}" {% if request.args.get('status') == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+            <select name="priority">
+                <option value="">All priorities</option>
+                {% for priority in priorities %}
+                    <option value="{{ priority }}" {% if request.args.get('priority') == priority %}selected{% endif %}>{{ priority }}</option>
+                {% endfor %}
+            </select>
+            <select name="sort">
+                {% for key, label in {"newest":"Newest","oldest":"Oldest","priority":"Priority","status":"Status","category":"Category"}.items() %}
+                    <option value="{{ key }}" {% if request.args.get('sort', 'newest') == key %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-secondary" type="submit">Apply</button>
+        </form>
+
+        <div class="responsive-table">
+            <table>
+                <thead>
+                    <tr><th>ID</th><th>Citizen</th><th>Issue</th><th>Location</th><th>Category</th><th>Priority</th><th>Status</th><th>Image</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                {% for complaint in complaints %}
+                    <tr>
+                        <td>#{{ complaint.id }}</td>
+                        <td><strong>{{ complaint.full_name }}</strong><small>{{ complaint.phone }}</small></td>
+                        <td><strong>{{ complaint.title }}</strong><small>{{ complaint.description }}</small></td>
+                        <td>{{ complaint.location }}</td>
+                        <td>{{ complaint.category }}</td>
+                        <td><span class="badge priority-{{ complaint.priority|lower }}">{{ complaint.priority }}</span></td>
+                        <td><span class="badge status-{{ complaint.status|lower|replace(' ', '-') }}">{{ complaint.status }}</span></td>
+                        <td>
+                            {% if complaint.image_filename %}
+                                <a href="{{ url_for('static', filename='uploads/' ~ complaint.image_filename) }}" target="_blank" rel="noopener">View</a>
+                            {% else %}
+                                <span class="muted">None</span>
+                            {% endif %}
+                        </td>
+                        <td class="action-cell">
+                            <form method="post" action="{{ url_for('admin.update_status', complaint_id=complaint.id) }}">
+                                <select name="status">
+                                    {% for status in statuses %}
+                                        <option value="{{ status }}" {% if complaint.status == status %}selected{% endif %}>{{ status }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-small btn-secondary" type="submit">Save</button>
+                            </form>
+                            <form method="post" action="{{ url_for('admin.delete_complaint', complaint_id=complaint.id) }}" data-confirm="Delete this complaint permanently?">
+                                <button class="btn btn-small btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="9" class="empty-row">No complaints match the selected filters.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

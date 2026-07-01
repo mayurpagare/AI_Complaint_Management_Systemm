@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Analytics{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+    <div class="welcome-card glass">
+        <div>
+            <p class="eyebrow">Dashboard analytics</p>
+            <h1>Complaint Insights</h1>
+            <p>Track monthly complaint volume, categories, priorities, and resolution progress.</p>
+        </div>
+        <a class="btn btn-secondary" href="{{ url_for('admin.export_csv') }}">Export CSV</a>
+    </div>
+
+    <div class="stats-grid compact">
+        <article class="stat-card"><span>{{ analytics.totals.total }}</span><p>Total Complaints</p></article>
+        <article class="stat-card"><span>{{ analytics.totals.resolved }}</span><p>Resolved</p></article>
+        <article class="stat-card"><span>{{ analytics.totals.pending }}</span><p>Pending</p></article>
+        <article class="stat-card"><span>{{ analytics.totals.progress }}</span><p>In Progress</p></article>
+    </div>
+
+    <section class="analytics-grid wide" data-chart-source='{{ analytics|tojson }}'>
+        <article class="chart-card"><h2>Monthly Complaints</h2><canvas data-chart="monthly"></canvas></article>
+        <article class="chart-card"><h2>Category Distribution</h2><canvas data-chart="categories"></canvas></article>
+        <article class="chart-card"><h2>Priority Distribution</h2><canvas data-chart="priorities"></canvas></article>
+    </section>
+</section>
+{% endblock %}

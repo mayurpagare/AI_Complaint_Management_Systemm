@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Complaint Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="loader" id="pageLoader"><span></span></div>
+    <nav class="navbar glass">
+        <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">AI</span> Complaints</a>
+        <button class="nav-toggle" type="button" aria-label="Open navigation" data-nav-toggle>
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" data-nav-menu>
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if session.get('role') == 'citizen' %}
+                <a href="{{ url_for('complaint.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('complaint.report_complaint') }}">Report</a>
+                <a href="{{ url_for('complaint.profile') }}">Profile</a>
+                <a class="btn btn-ghost" href="{{ url_for('auth.logout') }}">Logout</a>
+            {% elif session.get('role') == 'admin' %}
+                <a href="{{ url_for('admin.dashboard') }}">Admin</a>
+                <a href="{{ url_for('admin.complaints') }}">Complaints</a>
+                <a href="{{ url_for('admin.analytics') }}">Analytics</a>
+                <a class="btn btn-ghost" href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Citizen Login</a>
+                <a href="{{ url_for('auth.admin_login') }}">Admin Login</a>
+                <a class="btn btn-primary" href="{{ url_for('auth.register') }}">Register</a>
+            {% endif %}
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">◐</button>
+        </div>
+    </nav>
+
+    <main>
+        <div class="flash-stack">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>AI Complaint Management System &copy; 2026. Built for faster civic response.</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
